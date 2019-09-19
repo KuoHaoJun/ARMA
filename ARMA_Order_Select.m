@@ -1,4 +1,7 @@
 function [AR_Order,MA_Order] = ARMA_Order_Select(data,max_ar,max_ma)
+% Copyright (c) 2019 Mr.括号 All rights reserved.
+% 原文链接 https://zhuanlan.zhihu.com/p/69630638
+% 代码地址：https://github.com/KuoHaoJun/ARMA
 % 通过AIC，BIC等准则暴力选定阶数
 % 输入：
 % data对象数据
@@ -7,17 +10,19 @@ function [AR_Order,MA_Order] = ARMA_Order_Select(data,max_ar,max_ma)
 % 输出：
 % AR_Orderr为AR模型输出阶数
 % MA_Orderr为AR模型输出阶数
+
 T = length(data);
-Options = optimoptions(@fmincon,'MaxIter',2000, 'MaxFunEvals', 2000, ...
-    'Display', 'notify', 'TolCon', 1e-12, 'TolFun', 1e-12, ...
-    'TolX', 1e-12);
+
 for ar = 0:max_ar
     for ma = 0:max_ma
+        if ar==0&&ma==0
+            infoC_Sum = NaN;
+            continue
+        end
         Mdl = arima(ar, 0, ma);
-        [~, ~, LogL] = estimate(Mdl, data, 'Options', Options);
-        % Compute the different information criterion for the 3 models
-        infoC = info_val(LogL, (ar+ma), T);
-        infoC_Sum(ar+1,ma+1) = sum(infoC);  %这里直接将三个参数求和，也可以只以其中一个参数为基准
+        [~, ~, LogL] = estimate(Mdl, data, 'Display', 'off');
+        [aic,bic] = aicbic(LogL,(ar+ma),T);
+        infoC_Sum(ar+1,ma+1) = bic+aic;  %以BIC和AIC之和为标准进行选取 Select the sum of BIC and AIC as the standard
     end
 end
 [x, y]=find(infoC_Sum==min(min(infoC_Sum)));

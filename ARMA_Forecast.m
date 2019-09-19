@@ -1,5 +1,8 @@
 %% 进行预测的程序
 %  目标为退化的特征值，即TimeValFil中的各个值
+%  Copyright (c) 2019 Mr.括号 All rights reserved.
+%  原文链接 https://zhuanlan.zhihu.com/p/69630638
+%  代码地址：https://github.com/KuoHaoJun/ARMA
 %% 1.导入数据
 close all
 clear all
@@ -16,19 +19,16 @@ Ylog = log(Y)
 ylog_h_adf = adftest(Ylog)
 ylog_h_kpss = kpsstest(Ylog)
 % 取log+差分
-for i = 1:length(Y)-1
-    dYlog(i) = Ylog(i+1)-Ylog(i);
-end
+dYlog = diff(Ylog);
+
 dylog_h_adf = adftest(dYlog)
 dylog_h_kpss = kpsstest(dYlog)
 % 取差分
-for i = 1:length(Y)-1
-    dY(i) = Y(i+1)-Y(i);
-end
+dY = diff(Y);
 dy_h_adf = adftest(dY)
 dy_h_kpss = kpsstest(dY)
 
-aimY = dYlog;
+aimY = dYlog;  %选定了log+差分作为分析目标数据
 %% 3.确定ARMA模型阶数
 % ACF和PACF法，确定阶数
 figure
@@ -38,14 +38,11 @@ parcorr(aimY)
 % 通过AIC，BIC等准则暴力选定阶数
 max_ar = 3;
 max_ma = 3;
-[AR_Order,MA_Order] = ARMA_Order_Select(aimY',max_ar,max_ma)   %dY需要为列向量
+[AR_Order,MA_Order] = ARMA_Order_Select(aimY,max_ar,max_ma)   %dY需要为列向量
 %% 4.残差检验
-Options = optimoptions(@fmincon,'MaxIter',2000, 'MaxFunEvals', 2000, ...
-    'Display', 'notify', 'TolCon', 1e-12, 'TolFun', 1e-12, ...
-    'TolX', 1e-12);
-Mdl = arima(AR_Order+1, 0, MA_Order+1);
-EstMdl = estimate(Mdl,aimY');
-[res,~,logL] = infer(EstMdl,aimY');   %res即残差
+Mdl = arima(AR_Order, 0, MA_Order);
+EstMdl = estimate(Mdl,aimY);
+[res,~,logL] = infer(EstMdl,aimY);   %res即残差
 
 stdr = res/sqrt(EstMdl.Variance);
 figure('Name','残差检验')
@@ -68,7 +65,7 @@ DW0 = (diffRes0'*diffRes0)/SSE0 % Durbin-Watson statistic，该值接近2，则可以认为
 %% 5.预测
 % 单步预测
 for i = 5:length(aimY)
-    Predict_dlogY(i+1) = forecast(EstMdl,1,aimY(1:i)');
+    Predict_dlogY(i+1) = forecast(EstMdl,1,aimY(1:i));
 end
 figure
 plot(aimY);
