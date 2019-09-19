@@ -54,10 +54,15 @@ SSE0 = res'*res;
 DW0 = (diffRes0'*diffRes0)/SSE0 % Durbin-Watson statistic，该值接近2，则可以认为序列不存在一阶相关性。
 %% 5.预测
 % 单步预测
-for i = 5:length(Y)
-    Predict_Y(i+1) = forecast(EstMdl,1,Y(1:i));  %forecast
+for i = 1:length(Y)
+    Predict_Y(i+1) = forecast(EstMdl,1,'Y0',(1:i)');  %forecast
 end
-figure
-plot(Y)
-hold on
-plot(6:length(Predict_Y),Predict_Y(6:length(Predict_Y)))
+
+
+stepNum = 1;   %!设置预测步数
+startNum = 30; %!第一组数据从第30个点开始，该值可以改
+for i = startNum:stepNum:length(Y)  
+    Predict_dlogY(i+1:i+stepNum) = forecast(EstMdl,stepNum,'Y0',Y(i-29:i));  %forecast
+end
+Predict_Y = forecast(EstMdl,1,'Y0',Y);  %forecast
+figure(Predict_Y)
