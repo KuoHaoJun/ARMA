@@ -65,7 +65,7 @@ DW0 = (diffRes0'*diffRes0)/SSE0 % Durbin-Watson statistic，该值接近2，则可以认为
 %% 5.预测
 % 单步预测
 for i = 5:length(aimY)
-    Predict_dlogY(i+1) = forecast(EstMdl,1,aimY(1:i));
+    Predict_dlogY(i+1) = forecast(EstMdl,1,aimY(1:i));  %matlab2018及以下版本写为Predict_dlogY(i+1) = forecast(EstMdl,1,'Y0',aimY(1:i));
 end
 figure
 plot(aimY);
@@ -86,7 +86,7 @@ figure
 plot((Predict_y'-Y)/Y)
 
 % 多步预测
-[Predict_mul_dlogY,YMSE] = forecast(EstMdl,10,aimY');   %使用当前所有数据，预测未来10个步长的数据
+[Predict_mul_dlogY,YMSE] = forecast(EstMdl,10,aimY');   %使用当前所有数据，预测未来10个步长的数据  %matlab2018及以下版本写为[Predict_mul_dlogY,YMSE] = forecast(EstMdl,10,'Y0',aimY'); 
 % 还原
 for i = 1:10
     Predict_mul_ylog(i) = log(Y(1))+ sum(aimY)+sum(Predict_mul_dlogY(1:i));  %差分还原

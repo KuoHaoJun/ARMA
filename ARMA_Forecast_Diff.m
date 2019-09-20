@@ -55,7 +55,7 @@ DW0 = (diffRes0'*diffRes0)/SSE0 % Durbin-Watson statistic，该值接近2，则可以认为
 %% 5.预测
 % 单步预测
 for i = 5:length(Y)
-    Predict_Y(i+1) = forecast(EstMdl,1,Y(1:i));  %forecast
+    Predict_Y(i+1) = forecast(EstMdl,1,Y(1:i));   %matlab2018及以下版本写为Predict_Y(i+1) = forecast(EstMdl,1,'Y0',Y(1:i)); 
 end
 figure
 plot(Y)
