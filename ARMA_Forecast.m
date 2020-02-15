@@ -38,7 +38,7 @@ parcorr(aimY)
 % 通过AIC，BIC等准则暴力选定阶数
 max_ar = 3;
 max_ma = 3;
-[AR_Order,MA_Order] = ARMA_Order_Select(aimY,max_ar,max_ma)   %dY需要为列向量
+[AR_Order,MA_Order] = ARMA_Order_Select(aimY,max_ar,max_ma)   %dY需要为列向量。获取源码请查看source.txt
 %% 4.残差检验
 Mdl = arima(AR_Order, 0, MA_Order);
 EstMdl = estimate(Mdl,aimY);
