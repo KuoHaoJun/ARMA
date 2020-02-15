@@ -1,5 +1,6 @@
-代码运行环境：
+﻿代码运行环境：
 MATLAB2019a
+获取ARMA_Order_Select.m和ARMA_Order_Select_Diff.m的源码请查看source.txt
 
 常见问题：
 使用MATLAB2018及以下版本时，调用forecast时会报错：“需要字符串标量或字符向量形式的参数名称。”

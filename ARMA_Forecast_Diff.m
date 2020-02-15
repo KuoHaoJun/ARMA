@@ -28,7 +28,7 @@ parcorr(Y)
 % 通过AIC，BIC等准则暴力选定阶数
 max_ar = 3;
 max_ma = 3;
-[AR_Order,MA_Order] = ARMA_Order_Select_Diff(Y,max_ar,max_ma,1);      %dY需要为列向量
+[AR_Order,MA_Order] = ARMA_Order_Select_Diff(Y,max_ar,max_ma,1);      %dY需要为列向量,获取ARMA_Order_Select_Diff源码请查看source.txt
 %% 4.残差检验
 Mdl = arima(AR_Order, 1, MA_Order);  %第二个变量值为1，即一阶差分
 EstMdl = estimate(Mdl,Y);
