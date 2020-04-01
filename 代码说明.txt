@@ -1,17 +1,11 @@
 一、代码运行环境：
-MATLAB2019 / MATLAB2018 / MATLAB2017
+MATLAB2019 / MATLAB2018 / MATLAB2017 
 
 二、文件说明
 1. ARMA_Forecast_Diff.m
-知乎专栏（https://zhuanlan.zhihu.com/p/69630638）中的多步预测代码。为脚本文件，可以直接运行。其中调用了
-2. Demo_ARMA_onestep.m
-知乎专栏（https://zhuanlan.zhihu.com/p/69630638）中的单步预测代码。为脚本文件，可以直接运行。
-3. Fun_ARIMA_Forecast.p
-封装好的预测程序，可以通过输入原始数据、预测步数等直接获得预测结果。p文件，可以调用。
-4. ARMA_Order_Select.p
+知乎专栏（https://zhuanlan.zhihu.com/p/69630638）中的多步预测代码。为脚本文件，可以直接运行。其中调用了ARMA_Order_Select
+2. ARMA_Order_Select.p
 通过AIC，BIC等准则暴力选定阶数，带有差分项。P文件，可以调用
-5. Demo_ARIMA.m
-调用Fun_ARIMA_Forecast.p 进行多步预测的demo。
 
 三、常见问题：
 1.第57行报错往往是由于MATLAB版本问题导致的。
@@ -20,11 +14,20 @@ MATLAB2019 / MATLAB2018 / MATLAB2017
 2.第31行报错往往是由于用于训练的数据量小，而max_ar和max_ma的值偏高导致的，可以适当减小这两值。
 
 四、获取源码
-如果需要封装好的预测函数（Fun_ARIMA_Forecast.m）和定阶函数（ARMA_Order_Select.m）的源码，可在下述连接获取。
+如果需要定阶函数（ARMA_Order_Select.m）的源码，可在文末连接获取源码。
+
+源码中包括了店主最新代码，其中还包括：
+
+1)	定阶函数（ARMA_Order_Select.m）的源码。
+2)	封装好的全流程函数（Fun_ARIMA_Forecast.m），可以通过输入原始数据、预测步数等直接获得预测结果，将使用ARIMA进行预测的过程中的大部分工作都固化下来，非常方便使用。
+3)	演示函数调用方法的demos，包含使用Fun_ARIMA_Forecast.m进行多步预测、单步预测的程序典型写法。
+4)	更为丰富、详细的注释，标注了同学们反馈的常见疑问。
+
 
 编程不易，感谢支持~
 
 紧巴巴的学生党可以联系店主，店主会给优惠~
 
 https://item.taobao.com/item.htm?spm=a2126o.11854294.0.0.49ab4831rm8DbS&id=612059653145
+
 
